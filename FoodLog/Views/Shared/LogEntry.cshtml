@@ -1,0 +1,43 @@
+﻿<script type="text/html" id="dialog-log-entry-template" style="display:none">
+    <div class="dialog-container" id="dialog-log-entry">
+        <div name="dialog-log-entry-form">
+            <div class="col-sm-12 margin-bottom-10">
+                <!--button type="button" class="form-control btn btn-primary" data-bind="click: function() { return CreateGroup(); }">Create Group</button-->
+            </div>
+            <form class="row col-sm-12">
+                <div class="col-sm-12">
+                    <input type="datetime" class="form-control" placeholder="Timestamp" data-bind="value: timestamp" required />
+                </div>
+                <div class="col-sm-12">
+                    <select class="form-control" data-bind="value: meal" required>
+                        <option value="" disabled selected>Type...</option>
+                        <option value="1">Breakfast</option>
+                        <option value="2">Lunch</option>
+                        <option value="3">Dinner</option>
+                        <option value="4">Snack</option>
+                        <option value="5">Elimination</option>
+                    </select>
+                </div>
+                <div class="col-sm-12">
+                    <select class="form-control" data-bind="value: scale" required>
+                        <option value="" disabled selected>Hunger Scale...</option>
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" placeholder="Location" data-bind="value: location" />
+                </div>
+                <div class="col-sm-12">
+                    <textarea rows="3" class="form-control" placeholder="Description" data-bind="value: description"></textarea>
+                </div>
+                <div class="col-sm-12">
+                    <textarea rows="3" class="form-control" placeholder="Comments/Symptoms" data-bind="value: comments"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

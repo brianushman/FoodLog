@@ -16,9 +16,31 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.feedback-tag {
+    /* Safari */
+    -webkit-transform: rotate(-90deg);
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
+    /* IE */
+    -ms-transform: rotate(-90deg);
+    /* Opera */
+    -o-transform: rotate(-90deg);
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+    position: absolute;
+    top: 75px;
+    left: -25px;
+
+    border: 2px solid white;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.feedback-tag:hover {
+    background-color: #337ab7;
+    color: white;
+    text-decoration: none;
 }

@@ -9,7 +9,10 @@ namespace FoodLog
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/knockout-{version}.js",
+                        "~/Scripts/knockout.mapping.js",
+                        "~/Scripts/moment.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -21,7 +24,9 @@ namespace FoodLog
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/bootbox.min.js",
+                      "~/Scripts/application.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
