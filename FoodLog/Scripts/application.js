@@ -10,6 +10,24 @@ function LogEntry() {
     self.comments = ko.observable();
     self.image = ko.observable();
 
+    self.ImageSource = function () {
+        return self.image() == undefined ? "/Images/NoImagePlaceholder.jpg" : "data:image/png;base64," + self.image();
+    }
+
+    self.ImagePreview = function () {
+        bootbox.dialog({
+            title: "Entry Image Preview",
+            message: $.validator.format('<img src="{0}"></img>', self.ImageSource()),
+            buttons: {
+                main: {
+                    label: "Close",
+                    className: "btn-primary"
+                }
+            }
+        });
+        $(".modal-dialog").width($(window).width() - 50);
+    }
+
     self.DisplayMeal = ko.computed(function () {
         switch (self.meal()) {
             case 1:
@@ -28,7 +46,7 @@ function LogEntry() {
     });
 
     self.Column1Text = ko.computed(function () {
-        return "<strong>" + self.DisplayMeal().toUpperCase() + "</strong><br>TIME: <u>" + moment(self.timestamp()).format("h:mm a") + "</u>";
+        return $.validator.format("<strong>{0}</strong><br>TIME: <u>{1}</u>", self.DisplayMeal().toUpperCase(), moment(self.timestamp()).format("h:mm a"));
     });
 
     self.Load = function (value) {
@@ -97,6 +115,26 @@ function HomePage() {
         }
 
         ko.applyBindings(logEntry, document.getElementById("dialog-log-entry"));
+
+        $('.fileupload').fileupload({
+            dataType: 'json',
+            url: '/Files/UploadFiles',
+            autoUpload: true,
+            maxFileSize: 5000000, // 5 MB
+            disableImageResize: /Android(?!.*Chrome)|Opera/
+                .test(window.navigator && navigator.userAgent),
+            imageMaxWidth: 800,
+            imageMaxHeight: 800,
+            imageCrop: true,
+            acceptFileTypes: '/^image\/(gif|jpeg|png)$/',
+            previewSourceFileTypes: '/^image\/(gif|jpeg|png)$/',
+            done: function (e, data) {
+                logEntry.image(data._response.result.fileInfo.Data);
+            }
+        }).on('fileuploadprogressall', function (e, data) {
+            //var progress = parseInt(data.loaded / data.total * 100, 10);
+            //$('.progress .progress-bar').css('width', progress + '%');
+        });
     }
         
     self.Load = function () {

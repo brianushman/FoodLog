@@ -10,6 +10,7 @@ namespace FoodLog.Models
     public class LogEntry
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid LogEntryId { get; set; }
         [Required]
         public Guid UserId { get; set; }

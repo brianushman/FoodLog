@@ -25,7 +25,7 @@ namespace FoodLog.Controllers
         [HttpPost]
         public HttpResponseMessage Post(LogEntry value)
         {
-            value.UserId = Guid.Parse("91ff6cf4-f503-4cc2-825b-89027c16e6cf");
+            value.UserId = Guid.Parse("68FE7BDB-A9BD-E711-84B1-4C348806A03A");
             using (var context = new FoodJournalContext())
             {
                 var addedEntry = context.LogEntries.Add(value);

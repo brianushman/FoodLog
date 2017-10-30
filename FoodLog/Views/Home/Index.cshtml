@@ -9,6 +9,7 @@
                 <th>Food and Beverages</th>
                 <th>Hunger Scale</th>
                 <th>Comments or Symptoms</th>
+                <th>Image</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: LogEntries">
@@ -17,6 +18,7 @@
                 <td data-bind="text: description"></td>
                 <td data-bind="text: scale"></td>
                 <td data-bind="text: comments"></td>
+                <td><img style="cursor: pointer; height: 90px" data-bind="click: ImagePreview, attr: { src: ImageSource() }" /></td>
             </tr>
         </tbody>
     </table>
