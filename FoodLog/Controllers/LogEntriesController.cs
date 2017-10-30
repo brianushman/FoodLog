@@ -25,12 +25,30 @@ namespace FoodLog.Controllers
         [HttpPost]
         public HttpResponseMessage Post(LogEntry value)
         {
-            value.UserId = Guid.Parse("68FE7BDB-A9BD-E711-84B1-4C348806A03A");
+            value.UserId = GetFirstUser();
             using (var context = new FoodJournalContext())
             {
                 var addedEntry = context.LogEntries.Add(value);
                 if (context.SaveChanges() != 1) return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new Exception("Unable to save LogEntry"));
                 return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(addedEntry, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            }
+        }
+
+        private Guid GetFirstUser()
+        {
+            using (var context = new FoodJournalContext())
+            {
+                if (context.Users.Count() == 0) CreateFirstUser();
+                return context.Users.First().UserId;
+            }
+        }
+
+        private void CreateFirstUser()
+        {
+            using (var context = new FoodJournalContext())
+            {
+                context.Users.Add(new Models.User { FirstName = "Brian", LastName = "Ushman", Email = "brianushman@gmail.com" });
+                context.SaveChanges();
             }
         }
     }
