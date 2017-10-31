@@ -22,6 +22,19 @@ namespace FoodLog.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/LogEntries/{date}")]
+        public HttpResponseMessage Get(DateTime date)
+        {
+            using (var context = new FoodJournalContext())
+            {
+                var entries = context.LogEntries.Where(m => m.Timestamp.Year == date.Year &&
+                                                            m.Timestamp.Month == date.Month &&
+                                                            m.Timestamp.Day == date.Day).ToArray();
+                return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(entries, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage Post(LogEntry value)
         {

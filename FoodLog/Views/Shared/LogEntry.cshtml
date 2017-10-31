@@ -1,16 +1,15 @@
 ﻿<script type="text/html" id="dialog-log-entry-template" style="display:none">
     <div class="dialog-container" id="dialog-log-entry">
         <div name="dialog-log-entry-form">
-            <div class="col-sm-12 margin-bottom-10">
-                <!--button type="button" class="form-control btn btn-primary" data-bind="click: function() { return CreateGroup(); }">Create Group</button-->
-            </div>
             <form class="row col-sm-12">
-                <div class="col-sm-12">
-                    <input type="datetime" class="form-control" placeholder="Timestamp" data-bind="value: timestamp" required />
+                <div class="form-group thin-gutter">
+                    @*<label for="formDate">Date / Time</label>*@
+                    <input id="formDate" type="datetime" class="form-control" placeholder="Timestamp" data-bind="value: timestamp" required />
                 </div>
-                <div class="col-sm-12">
-                    <select class="form-control" data-bind="value: meal" required>
-                        <option value="" disabled selected>Type...</option>
+                <div class="form-group col-xs-6 thin-gutter">
+                    @*<label for="formEntryType">Entry Type</label>*@
+                    <select id="formEntryType" class="form-control" data-bind="value: meal" required>
+                        <option value="" disabled selected>Entry Type...</option>
                         <option value="1">Breakfast</option>
                         <option value="2">Lunch</option>
                         <option value="3">Dinner</option>
@@ -18,8 +17,9 @@
                         <option value="5">Elimination</option>
                     </select>
                 </div>
-                <div class="col-sm-12">
-                    <select class="form-control" data-bind="value: scale" required>
+                <div class="form-group col-xs-6 thin-gutter">
+                    @*<label for="formHungerScale">Hunger Scale</label>*@
+                    <select id="formHungerScale" class="form-control" data-bind="value: scale" required>
                         <option value="" disabled selected>Hunger Scale...</option>
                         <option>0</option>
                         <option>1</option>
@@ -28,16 +28,20 @@
                         <option>4</option>
                     </select>
                 </div>
-                <div class="col-sm-12">
-                    <input type="text" class="form-control" placeholder="Location" data-bind="value: location" />
+                <div class="form-group thin-gutter">
+                    @*<label for="formDescription">Description</label>*@
+                    <textarea id="formDescription" rows="3" class="form-control" placeholder="Food & Beverages" data-bind="value: description"></textarea>
                 </div>
-                <div class="col-sm-12">
-                    <textarea rows="3" class="form-control" placeholder="Description" data-bind="value: description"></textarea>
+                <div class="form-group thin-gutter">
+                    @*<label for="formLocation">Location</label>*@
+                    <input id="formLocation" type="text" class="form-control" placeholder="Location" data-bind="value: location" />
                 </div>
-                <div class="col-sm-12">
-                    <textarea rows="3" class="form-control" placeholder="Comments/Symptoms" data-bind="value: comments"></textarea>
+                <div class="form-group thin-gutter">
+                    @*<label for="formComments">Comments / Symptoms</label>*@
+                    <textarea id="formComments" rows="3" class="form-control" placeholder="Comments/Symptoms" data-bind="value: comments"></textarea>
                 </div>
-                <div class="col-sm-12">
+                <div class="form-group thin-gutter">
+                    @*<label>Image</label>*@
                     <div class="image-container">
                         <span class="fileinput-button" title="Click to upload an image">
                             <img data-bind="attr: { src: $data.ImageSource() }" style="height: 120px" />

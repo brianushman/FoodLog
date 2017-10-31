@@ -1,4 +1,10 @@
 ﻿
+var GetUrlDate = function() {
+    var parts = document.location.href.split("/");
+    var last_part = parts[parts.length - 1];
+    return last_part.indexOf('?') == 0 ? moment(last_part.substring(1)) : moment();
+}
+
 function LogEntry() {
     var self = this;
 
@@ -17,7 +23,7 @@ function LogEntry() {
     self.ImagePreview = function () {
         bootbox.dialog({
             title: "Entry Image Preview",
-            message: $.validator.format('<img src="{0}"></img>', self.ImageSource()),
+            message: $.validator.format('<div style="overflow: auto"><img src="{0}"></img></div>', self.ImageSource()),
             buttons: {
                 main: {
                     label: "Close",
@@ -65,6 +71,10 @@ function HomePage() {
     var self = this;
 
     self.LogEntries = ko.observableArray([]);
+
+    self.JournalHeading = ko.computed(function () {
+        return $.validator.format("Journal Entry for {0}", GetUrlDate().format("dddd, MMM Do YYYY"));
+    });
 
     self.CreateEntry = function (logEntry) {
         var messageTemplate = $("#dialog-log-entry-template").html();
@@ -136,11 +146,26 @@ function HomePage() {
             //$('.progress .progress-bar').css('width', progress + '%');
         });
     }
+
+    self.MoveNextDay = function () {
+        var date = GetUrlDate().add(1, 'days');
+        window.location.href = "?" + date.format("YYYY-MM-DD");
+    }
+
+    self.MovePreviousDay = function () {
+        var date = GetUrlDate().subtract(1, 'days');
+        window.location.href = "?" + date.format("YYYY-MM-DD");
+    }
+
+    self.MoveToday = function () {
+        window.location.href = "/";
+    }
         
     self.Load = function () {
         $.ajax({
             type: "GET",
-            url: "api/LogEntries",
+            url: "api/LogEntries/" + GetUrlDate().format("YYYY-MM-DD"),
+            //url: "api/LogEntries",
             xhrFields: {
                 withCredentials: true
             },
@@ -169,3 +194,8 @@ function HomePage() {
 }
 
 ko.applyBindings(new HomePage().Load(), document.getElementById("body"));
+
+$('#btnChangeDate').datepicker()
+.on('changeDate', function(ev){
+    window.location.href = "?" + moment(ev.date).format("YYYY-MM-DD");
+});

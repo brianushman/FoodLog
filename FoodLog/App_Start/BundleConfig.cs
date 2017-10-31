@@ -12,7 +12,8 @@ namespace FoodLog
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/knockout-{version}.js",
                         "~/Scripts/knockout.mapping.js",
-                        "~/Scripts/moment.min.js"));
+                        "~/Scripts/moment.min.js",
+                        "~/Scripts/bootstrap-datepicker.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -45,6 +46,8 @@ namespace FoodLog
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/jquery.fileupload.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/bootstrap-datepicker.min.css",
                       "~/Content/site.css"));
         }
     }

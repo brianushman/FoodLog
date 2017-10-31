@@ -1,7 +1,20 @@
 ﻿@Html.Partial("../Shared/LogEntry")
 <div class="container inherit-height" style="margin-top: 20px;" id="MainPage">
-    <a class="feedback-tag" href="mailto:brianushman@gmail.com">Feedback</a>
-    <button type="button" class="btn btn-primary" data-bind="click: function() { return CreateEntry(); }">Create Entry</button>
+    @*<a class="feedback-tag" href="mailto:brianushman@gmail.com">Feedback</a>*@
+    <div class="col-xs-12 no-gutter" style="margin-bottom: 5px; display: inline-block; text-align: center;">
+        <strong data-bind="text: JournalHeading" style="font-size: 18px;"></strong>
+        <div class="pull-left">
+            <button type="button" class="btn btn-primary" data-bind="click: function() { return CreateEntry(); }">Create Entry</button>
+        </div>
+        <div class="pull-right btn-toolbar">
+            <div class="btn-group">
+                <button id="btnChangeDate" type="button" class="btn btn-info pull-right" title="View Calendar" data-date-format="yyyy-mm-dd"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-info pull-right" title="Move To Next Day" data-bind="click: MoveNextDay"><i class="fa fa-arrow-right"></i></button>
+                <button type="button" class="btn btn-info pull-right" title="Move To Today" data-bind="click: MoveToday"><bold class="fa fa-calendar-check-o" aria-hidden="true"></bold></button>
+                <button type="button" class="btn btn-info pull-right" title="Move To Previous Day" data-bind="click: MovePreviousDay"><i class="fa fa-arrow-left"></i></button>
+            </div>
+        </div>
+    </div>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -22,4 +35,9 @@
             </tr>
         </tbody>
     </table>
+    <!-- ko if: LogEntries().length == 0 -->
+    <div class="col-xs-12" style="text-align: center">
+        <strong style="font-size: 18px; color: #ccc;">No Entries Logged</strong>
+    </div>
+    <!-- /ko -->
 </div>
