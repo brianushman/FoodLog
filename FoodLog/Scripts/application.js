@@ -20,7 +20,12 @@ function LogEntry() {
         return self.image() == undefined ? "/Images/NoImagePlaceholder.jpg" : "data:image/png;base64," + self.image();
     }
 
+    self.ImageMarkup = function () {
+        return self.image() == undefined ? undefined : "data:image/png;base64," + self.image();
+    }
+
     self.ImagePreview = function () {
+        if (self.image() == undefined) return;
         bootbox.dialog({
             title: "Entry Image Preview",
             message: $.validator.format('<div style="overflow: auto"><img src="{0}"></img></div>', self.ImageSource()),
@@ -55,6 +60,10 @@ function LogEntry() {
         return $.validator.format("<strong>{0}</strong><br>TIME: <u>{1}</u>", self.DisplayMeal().toUpperCase(), moment(self.timestamp()).format("h:mm a"));
     });
 
+    self.EliminationEntry = ko.computed(function () {
+        return $.validator.format('TIME {0}<br>{1}', moment(self.timestamp()).format("h:mmA"), self.description());
+    });
+    
     self.Load = function (value) {
         self.timestamp(value.Timestamp);
         self.meal(value.Meal);
@@ -75,6 +84,16 @@ function HomePage() {
     self.JournalHeading = ko.computed(function () {
         return $.validator.format("Journal Entry for {0}", GetUrlDate().format("dddd, MMM Do YYYY"));
     });
+
+    self.EliminationEntries = ko.computed(function () {
+        return $.grep(self.LogEntries(), function (value, i) {
+            return value.meal() == 5;
+        });
+    });
+
+    self.EliminationBorderStyling = function (index) {
+        return index == 0 ? "0px solid green" : "1px solid #dddddd";
+    }
 
     self.CreateEntry = function (logEntry) {
         var messageTemplate = $("#dialog-log-entry-template").html();
@@ -119,6 +138,7 @@ function HomePage() {
             }
         });
         $(messageTemplate).show();
+        $(".modal-body").css("padding-bottom", 0);
 
         if (logEntry == undefined) {
             logEntry = new LogEntry();

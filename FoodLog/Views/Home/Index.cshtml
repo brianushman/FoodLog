@@ -1,4 +1,14 @@
-﻿@Html.Partial("../Shared/LogEntry")
+﻿<style>
+    .wrapper {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+    .wrapper div {
+        display: table-cell;
+    }
+</style>
+@Html.Partial("../Shared/LogEntry")
 <div class="container inherit-height" style="margin-top: 20px;" id="MainPage">
     @*<a class="feedback-tag" href="mailto:brianushman@gmail.com">Feedback</a>*@
     <div class="col-xs-12 no-gutter" style="margin-bottom: 5px; display: inline-block; text-align: center;">
@@ -25,13 +35,27 @@
                 <th>Image</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: LogEntries">
+        <tbody>
+            <!-- ko foreach: LogEntries -->
+            <!-- ko if: meal() != 5 -->
             <tr>
-                <td data-bind="html: Column1Text"></td>
+                <td data-bind="html: Column1Text" style="white-space: nowrap;"></td>
                 <td data-bind="text: description"></td>
                 <td data-bind="text: scale"></td>
                 <td data-bind="text: comments"></td>
-                <td><img style="cursor: pointer; height: 90px" data-bind="click: ImagePreview, attr: { src: ImageSource() }" /></td>
+                <td><img style="cursor: pointer; height: 90px" data-bind="click: ImagePreview, attr: { src: ImageMarkup() }" /></td>
+            </tr>
+            <!-- /ko -->
+            <!-- /ko -->
+            <tr data-bind="if: EliminationEntries().length > 0">
+                <td data-bind="html: '<strong>ELIMINATION</strong><br><small>DESCRIPTION</small>'"></td>
+                <td colspan="4" style="padding: 0 !important;">
+                    <div class="wrapper">
+                        <!-- ko foreach: EliminationEntries -->
+                        <div data-bind="html: EliminationEntry, style: { borderLeft: $root.EliminationBorderStyling($index()) }" style="padding: 8px"></div>
+                        <!-- /ko -->
+                    </div>
+                </td>                
             </tr>
         </tbody>
     </table>

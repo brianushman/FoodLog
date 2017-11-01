@@ -30,7 +30,8 @@ namespace FoodLog.Controllers
             {
                 var entries = context.LogEntries.Where(m => m.Timestamp.Year == date.Year &&
                                                             m.Timestamp.Month == date.Month &&
-                                                            m.Timestamp.Day == date.Day).ToArray();
+                                                            m.Timestamp.Day == date.Day).
+                                                 OrderBy(m => m.Meal == MealType.Elimination).ToArray();
                 return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(entries, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
             }
         }
