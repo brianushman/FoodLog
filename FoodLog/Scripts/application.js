@@ -11,7 +11,7 @@ function LogEntry() {
     self.timestamp = ko.observable(moment().format("YYYY/MM/DD hh:mm a"));
     self.meal = ko.observable();
     self.description = ko.observable();
-    self.scale = ko.observable();
+    self.hungerScale = ko.observable();
     self.location = ko.observable();
     self.comments = ko.observable();
     self.image = ko.observable();
@@ -51,6 +51,10 @@ function LogEntry() {
                 return "Snack";
             case 5:
                 return "Elimination";
+            case 6:
+                return "Awake";
+            case 7:
+                return "Asleep";
             default:
                 return "N/A";
         }
@@ -68,7 +72,7 @@ function LogEntry() {
         self.timestamp(value.Timestamp);
         self.meal(value.Meal);
         self.description(value.Description);
-        self.scale(value.HungerScale);
+        self.hungerScale(value.HungerScale);
         self.location(value.Location);
         self.comments(value.Comments);
         self.image(value.Image);
@@ -88,6 +92,12 @@ function HomePage() {
     self.EliminationEntries = ko.computed(function () {
         return $.grep(self.LogEntries(), function (value, i) {
             return value.meal() == 5;
+        });
+    });
+
+    self.AwakeEntries = ko.computed(function () {
+        return $.grep(self.LogEntries(), function (value, i) {
+            return value.meal() == 6;
         });
     });
 
@@ -116,7 +126,11 @@ function HomePage() {
                             async: false,
                             contentType: "application/json; charset=utf-8",
                             success: function (data) {
-                                self.LogEntries.push(new LogEntry().Load(JSON.parse(data)));                            },
+                                var newEntry = new LogEntry().Load(JSON.parse(data));
+                                if (moment(newEntry.timestamp()).format("YYYY-MM-DD") == moment().format("YYYY-MM-DD")) {
+                                    self.LogEntries.push();
+                                }
+                            },
                             error: function (error) {
                                 /*$.notify({
                                     // options

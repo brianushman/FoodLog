@@ -33,6 +33,8 @@ namespace FoodLog.Models
         Lunch,
         Dinner,
         Snack,
-        Elimination
+        Elimination,
+        Awake,
+        Asleep
     }
 }
