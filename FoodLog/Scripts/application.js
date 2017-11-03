@@ -128,7 +128,7 @@ function HomePage() {
                             success: function (data) {
                                 var newEntry = new LogEntry().Load(JSON.parse(data));
                                 if (moment(newEntry.timestamp()).format("YYYY-MM-DD") == moment().format("YYYY-MM-DD")) {
-                                    self.LogEntries.push();
+                                    self.LogEntries.push(newEntry);
                                 }
                             },
                             error: function (error) {
@@ -208,6 +208,9 @@ function HomePage() {
             success: function (data) {
                 var items = JSON.parse(data);
                 items.forEach(function (item) {
+                    if (item.Description != undefined) {
+                        item.Description = item.Description.replace(new RegExp("\n", 'g'), "<br>");
+                    }
                     self.LogEntries.push(new LogEntry().Load(item));
                 });
             },
