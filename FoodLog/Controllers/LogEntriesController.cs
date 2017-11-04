@@ -48,6 +48,41 @@ namespace FoodLog.Controllers
             }
         }
 
+        [HttpPut]
+        public HttpResponseMessage Put(LogEntry value)
+        {
+            value.UserId = GetFirstUser();
+            using (var context = new FoodJournalContext())
+            {
+                var entity = context.LogEntries.Find(value.LogEntryId);
+                if (entity == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new Exception("Log Entry not found!"));
+                }
+
+                context.Entry(entity).CurrentValues.SetValues(value);
+                if (context.SaveChanges() != 1) return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new Exception("Unable to update LogEntry"));
+                return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(entity, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            }
+        }
+
+        [HttpDelete]
+        public HttpResponseMessage Delete(LogEntry value)
+        {
+            using (var context = new FoodJournalContext())
+            {
+                var entity = context.LogEntries.Find(value.LogEntryId);
+                if (entity == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new Exception("Log Entry not found!"));
+                }
+
+                var removed = context.LogEntries.Remove(entity);
+                if (context.SaveChanges() != 1) return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new Exception("Unable to remove LogEntry"));
+                return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(removed, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            }
+        }
+
         private Guid GetFirstUser()
         {
             using (var context = new FoodJournalContext())

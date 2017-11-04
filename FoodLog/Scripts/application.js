@@ -15,6 +15,7 @@ function LogEntry() {
     self.location = ko.observable();
     self.comments = ko.observable();
     self.image = ko.observable();
+    self.logEntryId = ko.observable();
 
     self.ImageSource = function () {
         return self.image() == undefined ? "/Images/NoImagePlaceholder.jpg" : "data:image/png;base64," + self.image();
@@ -67,15 +68,31 @@ function LogEntry() {
     self.EliminationEntry = ko.computed(function () {
         return $.validator.format('TIME {0}<br>{1}', moment(self.timestamp()).format("h:mmA"), self.description());
     });
+
+    self.Copy = function () {
+        var obj = new LogEntry();
+        var value = ko.mapping.toJS(self);
+
+        obj.timestamp(moment(value.timestamp).format("YYYY/MM/DD hh:mm a"));
+        obj.meal(value.meal);
+        obj.description(value.description.replace(new RegExp("<br>", 'g'), "\n"));
+        obj.hungerScale(value.hungerScale);
+        obj.location(value.location);
+        obj.comments(value.comments);
+        obj.image(value.image);
+        obj.logEntryId(value.logEntryId);
+        return obj;
+    }
     
     self.Load = function (value) {
         self.timestamp(value.Timestamp);
         self.meal(value.Meal);
-        self.description(value.Description);
+        self.description(value.Description != undefined ? value.Description.replace(new RegExp("\n", 'g'), "<br>") : undefined);
         self.hungerScale(value.HungerScale);
         self.location(value.Location);
         self.comments(value.Comments);
         self.image(value.Image);
+        self.logEntryId(value.LogEntryId);
         return self;
     }
 }
@@ -105,7 +122,55 @@ function HomePage() {
         return index == 0 ? "0px solid green" : "1px solid #dddddd";
     }
 
-    self.CreateEntry = function (logEntry) {
+    self.DeleteEntry = function (logEntry) {
+        if (logEntry == undefined || logEntry == null) return;
+
+        bootbox.confirm({
+            message: "Are you sure you want to REMOVE this log entry?  This action cannot be undone.",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-danger'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-primary'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "api/LogEntries",
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        data: ko.mapping.toJSON(logEntry),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            var entry = new LogEntry().Load(JSON.parse(data));
+                            var index = self.FindLogEntryIndex(entry);
+                            if (index < 0) return;
+                            self.LogEntries.splice(index, 1);
+                        },
+                        error: function (error) {
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    self.CreateEntry = function (value) {
+        var isNew = value == undefined;
+        var logEntry = undefined;
+        if (value == undefined) {
+            logEntry = new LogEntry();
+        }
+        else {
+            logEntry = value.Copy();
+        }
         var messageTemplate = $("#dialog-log-entry-template").html();
         bootbox.dialog({
             closeButton: false,
@@ -113,11 +178,11 @@ function HomePage() {
             message: messageTemplate,
             buttons: {
                 success: {
-                    label: logEntry == undefined ? "Create" : "Save",
+                    label: isNew ? "Create" : "Save",
                     className: "btn-success",
                     callback: function () {
                         $.ajax({
-                            type: "POST",
+                            type: isNew ? "POST" : "PUT",
                             url: "api/LogEntries",
                             xhrFields: {
                                 withCredentials: true
@@ -127,8 +192,15 @@ function HomePage() {
                             contentType: "application/json; charset=utf-8",
                             success: function (data) {
                                 var newEntry = new LogEntry().Load(JSON.parse(data));
-                                if (moment(newEntry.timestamp()).format("YYYY-MM-DD") == moment().format("YYYY-MM-DD")) {
-                                    self.LogEntries.push(newEntry);
+                                if (moment(newEntry.timestamp()).format("YYYY-MM-DD") == moment(GetUrlDate()).format("YYYY-MM-DD")) {
+                                    if (isNew) {
+                                        self.LogEntries.push(newEntry);
+                                    }
+                                    else {
+                                        var index = self.FindLogEntryIndex(newEntry);
+                                        if (index < 0) return;
+                                        self.LogEntries.splice(index, 1, newEntry);
+                                    }
                                 }
                             },
                             error: function (error) {
@@ -153,10 +225,6 @@ function HomePage() {
         });
         $(messageTemplate).show();
         $(".modal-body").css("padding-bottom", 0);
-
-        if (logEntry == undefined) {
-            logEntry = new LogEntry();
-        }
 
         ko.applyBindings(logEntry, document.getElementById("dialog-log-entry"));
 
@@ -194,16 +262,22 @@ function HomePage() {
     self.MoveToday = function () {
         window.location.href = "/";
     }
+
+    self.FindLogEntryIndex = function (value) {
+        for (var i = 0; i < self.LogEntries().length; ++i) {
+            if (self.LogEntries()[i].logEntryId() == value.logEntryId()) return i;
+        }
+        return -1;
+    }
         
     self.Load = function () {
         $.ajax({
             type: "GET",
             url: "api/LogEntries/" + GetUrlDate().format("YYYY-MM-DD"),
-            //url: "api/LogEntries",
             xhrFields: {
                 withCredentials: true
             },
-            async: false,
+            async: true,
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 var items = JSON.parse(data);

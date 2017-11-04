@@ -7,6 +7,10 @@
     .wrapper div {
         display: table-cell;
     }
+    ul {
+        padding: 0;
+        list-style-type: none;
+    }
 </style>
 @Html.Partial("../Shared/LogEntry")
 <div class="container inherit-height" style="margin-top: 20px;" id="MainPage">
@@ -44,7 +48,20 @@
             <!-- /ko -->          
             <!-- ko if: meal() < 5 -->
             <tr>
-                <td data-bind="html: Column1Text" style="white-space: nowrap;"></td>
+                <td style="height: 1px">
+                    <div style="float: left; height: 100%;">
+                        <ul>
+                            <li class="dropdown">
+                                <i class="dropdown-toggle fa fa-ellipsis-v entry-dropdown" data-toggle="dropdown" aria-hidden="true"></i>
+                                <ul class="dropdown-menu">
+                                    <li style="cursor: pointer"><a data-bind="click: function() { return $root.CreateEntry($data); }"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                                    <li style="cursor: pointer"><a data-bind="click: function() { return $root.DeleteEntry($data); }"><i class="fa fa-trash-o "></i> Remove</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <span data-bind="html: Column1Text" style="white-space: nowrap; float: left;"></span>
+                </td>
                 <td data-bind="html: description"></td>
                 <td data-bind="text: hungerScale"></td>
                 <td data-bind="text: comments"></td>
