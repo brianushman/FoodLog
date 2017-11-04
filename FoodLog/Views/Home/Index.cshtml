@@ -48,8 +48,8 @@
             <!-- /ko -->          
             <!-- ko if: meal() < 5 -->
             <tr>
-                <td style="height: 1px">
-                    <div style="float: left; height: 100%;">
+                <td style="height: 1px;  white-space: nowrap;">
+                    <div style="display: inline-block; height: 100%; white-space: nowrap;">
                         <ul>
                             <li class="dropdown">
                                 <i class="dropdown-toggle fa fa-ellipsis-v entry-dropdown" data-toggle="dropdown" aria-hidden="true"></i>
@@ -60,7 +60,7 @@
                             </li>
                         </ul>
                     </div>
-                    <span data-bind="html: Column1Text" style="white-space: nowrap; float: left;"></span>
+                    <span data-bind="html: Column1Text" style="white-space: nowrap; display: inline-block; height: 100%;"></span>
                 </td>
                 <td data-bind="html: description"></td>
                 <td data-bind="text: hungerScale"></td>
