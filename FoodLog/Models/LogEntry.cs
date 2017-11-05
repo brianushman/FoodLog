@@ -20,6 +20,7 @@ namespace FoodLog.Models
         public MealType Meal { get; set; }
         public string Description { get; set; }
         public int HungerScale { get; set; }
+        public string Location { get; set; }
         public string Comments { get; set; }
         public string Image { get; set; }
 

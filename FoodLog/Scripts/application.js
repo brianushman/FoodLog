@@ -65,6 +65,10 @@ function LogEntry() {
         return $.validator.format("<strong>{0}</strong><br>TIME: <u>{1}</u>", self.DisplayMeal().toUpperCase(), moment(self.timestamp()).format("h:mm a"));
     });
 
+    self.Column4Text = ko.computed(function () {
+        return $.validator.format("<u><strong>LOCATION: </strong><span>{0}</span></u><br><span>{1}</span>", self.location() || "", self.comments() || "");
+    });
+
     self.EliminationEntry = ko.computed(function () {
         return $.validator.format('TIME {0}<br>{1}', moment(self.timestamp()).format("h:mmA"), self.description());
     });
