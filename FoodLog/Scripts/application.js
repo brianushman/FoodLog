@@ -17,6 +17,10 @@ function LogEntry() {
     self.image = ko.observable();
     self.logEntryId = ko.observable();
 
+    self.descriptionFormatted = ko.computed(function () {
+        return self.description() == undefined ? undefined : self.description().replace(new RegExp("\n", 'g'), "<br>");
+    });
+
     self.ImageSource = function () {
         return self.image() == undefined ? "/Images/NoImagePlaceholder.jpg" : "data:image/png;base64," + self.image();
     }
@@ -70,7 +74,7 @@ function LogEntry() {
     });
 
     self.EliminationEntry = ko.computed(function () {
-        return $.validator.format('TIME {0}<br>{1}', moment(self.timestamp()).format("h:mmA"), self.description());
+        return $.validator.format('TIME {0}<br>{1}', moment(self.timestamp()).format("h:mmA"), self.descriptionFormatted());
     });
 
     self.Copy = function () {
@@ -79,7 +83,7 @@ function LogEntry() {
 
         obj.timestamp(moment(value.timestamp).format("YYYY/MM/DD hh:mm a"));
         obj.meal(value.meal);
-        obj.description(value.description.replace(new RegExp("<br>", 'g'), "\n"));
+        obj.description(value.description);
         obj.hungerScale(value.hungerScale);
         obj.location(value.location);
         obj.comments(value.comments);
@@ -91,7 +95,7 @@ function LogEntry() {
     self.Load = function (value) {
         self.timestamp(value.Timestamp);
         self.meal(value.Meal);
-        self.description(value.Description != undefined ? value.Description.replace(new RegExp("\n", 'g'), "<br>") : undefined);
+        self.description(value.Description);
         self.hungerScale(value.HungerScale);
         self.location(value.Location);
         self.comments(value.Comments);
@@ -286,9 +290,6 @@ function HomePage() {
             success: function (data) {
                 var items = JSON.parse(data);
                 items.forEach(function (item) {
-                    if (item.Description != undefined) {
-                        item.Description = item.Description.replace(new RegExp("\n", 'g'), "<br>");
-                    }
                     self.LogEntries.push(new LogEntry().Load(item));
                 });
             },
