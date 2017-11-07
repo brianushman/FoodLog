@@ -9,7 +9,7 @@
                 <div class="form-group col-xs-6 thin-gutter">
                     @*<label for="formEntryType">Entry Type</label>*@
                     <select id="formEntryType" class="form-control" data-bind="value: meal" required>
-                        <option value="" disabled selected>Entry Type...</option>
+                        <option value="-1" disabled selected>Entry Type...</option>
                         <option value="1">Breakfast</option>
                         <option value="2">Lunch</option>
                         <option value="3">Dinner</option>
@@ -22,7 +22,7 @@
                 <div class="form-group col-xs-6 thin-gutter" data-bind="visible: meal() < 5">
                     @*<label for="formHungerScale">Hunger Scale</label>*@
                     <select id="formHungerScale" class="form-control" data-bind="value: hungerScale" required>
-                        <option value="" disabled selected>Hunger Scale...</option>
+                        <option value="-1" disabled selected>Hunger Scale...</option>
                         <option>0</option>
                         <option>1</option>
                         <option>2</option>
