@@ -1,0 +1,13 @@
+﻿<script type="text/html" id="edit-entry-template">
+    <div>
+        <ul>
+            <li class="dropdown">
+                <i class="dropdown-toggle fa fa-ellipsis-v entry-dropdown" data-toggle="dropdown" aria-hidden="true"></i>
+                <ul class="dropdown-menu">
+                    <li style="cursor: pointer"><a data-bind="click: function() { return $root.CreateEntry($data); }"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                    <li style="cursor: pointer"><a data-bind="click: function() { return $root.DeleteEntry($data); }"><i class="fa fa-trash-o "></i> Remove</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</script>

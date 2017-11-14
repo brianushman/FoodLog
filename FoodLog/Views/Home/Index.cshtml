@@ -12,6 +12,7 @@
         list-style-type: none;
     }
 </style>
+@Html.Partial("../Shared/_EditEntryCtrl")
 @Html.Partial("../Shared/LogEntry")
 <div class="container inherit-height" style="margin-top: 20px;" id="MainPage">
     @*<a class="feedback-tag" href="mailto:brianushman@gmail.com">Feedback</a>*@
@@ -43,23 +44,16 @@
             <!-- ko foreach: LogEntries --> 
             <!-- ko if: meal() == 6 --> 
             <tr>
-                <td data-bind="html: Column1Text" style="white-space: nowrap;" colspan="5"></td>
+                <td class="entry-cell" colspan="5">
+                    <div class="edit-ctrl" data-bind="template: { name: 'edit-entry-template', data: $data }"></div>
+                    <span data-bind="html: Column1Text" style="white-space: nowrap; display: inline-block; height: 100%;"></span>
+                </td>
             </tr>
             <!-- /ko -->          
             <!-- ko if: meal() < 5 -->
             <tr>
-                <td style="height: 1px;  white-space: nowrap;">
-                    <div style="display: inline-block; height: 100%; white-space: nowrap;">
-                        <ul>
-                            <li class="dropdown">
-                                <i class="dropdown-toggle fa fa-ellipsis-v entry-dropdown" data-toggle="dropdown" aria-hidden="true"></i>
-                                <ul class="dropdown-menu">
-                                    <li style="cursor: pointer"><a data-bind="click: function() { return $root.CreateEntry($data); }"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
-                                    <li style="cursor: pointer"><a data-bind="click: function() { return $root.DeleteEntry($data); }"><i class="fa fa-trash-o "></i> Remove</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                <td class="entry-cell">
+                    <div class="edit-ctrl" data-bind="template: { name: 'edit-entry-template', data: $data }"></div>
                     <span data-bind="html: Column1Text" style="white-space: nowrap; display: inline-block; height: 100%;"></span>
                 </td>
                 <td data-bind="html: descriptionFormatted"></td>
@@ -70,7 +64,10 @@
             <!-- /ko -->
             <!-- ko if: meal() == 7 -->
             <tr>
-                <td data-bind="html: Column1Text" style="white-space: nowrap;" colspan="5"></td>
+                <td class="entry-cell" colspan="5">
+                    <div class="edit-ctrl" data-bind="template: { name: 'edit-entry-template', data: $data }"></div>
+                    <span data-bind="html: Column1Text" style="white-space: nowrap; display: inline-block; height: 100%;"></span>
+                </td>
             </tr>
             <!-- /ko --> 
             <!-- /ko -->
@@ -79,7 +76,10 @@
                 <td colspan="4" style="padding: 0 !important;">
                     <div class="wrapper">
                         <!-- ko foreach: EliminationEntries -->
-                        <div data-bind="html: EliminationEntry, style: { borderLeft: $root.EliminationBorderStyling($index()) }" style="padding: 8px"></div>
+                        <div data-bind="style: { borderLeft: $root.EliminationBorderStyling($index()) }" style="padding: 8px">
+                            <div class="edit-ctrl" data-bind="template: { name: 'edit-entry-template', data: $data }"></div>
+                            <div data-bind="html: EliminationEntry"></div>
+                        </div>
                         <!-- /ko -->
                     </div>
                 </td>                

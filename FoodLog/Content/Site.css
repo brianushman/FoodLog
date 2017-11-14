@@ -77,3 +77,14 @@
 .modal {
     position: absolute !important;
 }
+
+.edit-ctrl {
+    display: inline-block;
+    height: 100%;
+    white-space: nowrap;
+}
+
+.entry-cell {
+    height: 1px;
+    white-space: nowrap;
+}
