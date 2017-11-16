@@ -246,6 +246,7 @@ function HomePage() {
             imageMaxWidth: 800,
             imageMaxHeight: 800,
             imageCrop: true,
+            imageOrientation: true,
             acceptFileTypes: '/^image\/(gif|jpeg|png)$/',
             previewSourceFileTypes: '/^image\/(gif|jpeg|png)$/',
             done: function (e, data) {
