@@ -60,6 +60,8 @@ function LogEntry() {
                 return "Awake";
             case 7:
                 return "Asleep";
+            case 8:
+                return "Note";
             default:
                 return "N/A";
         }

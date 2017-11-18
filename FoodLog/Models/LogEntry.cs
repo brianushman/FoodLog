@@ -36,6 +36,7 @@ namespace FoodLog.Models
         Snack,
         Elimination,
         Awake,
-        Asleep
+        Asleep,
+        Note
     }
 }
