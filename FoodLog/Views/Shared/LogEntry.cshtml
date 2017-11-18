@@ -31,9 +31,9 @@
                         <option>4</option>
                     </select>
                 </div>
-                <div class="form-group thin-gutter" data-bind="visible: meal() <= 5">
+                <div class="form-group thin-gutter" data-bind="visible: meal() <= 5 || meal() == 8">
                     @*<label for="formDescription">Description</label>*@
-                    <textarea id="formDescription" rows="3" class="form-control" data-bind="value: description, attr: { placeholder: meal() == 5 ? 'Description' : 'Food & Beverages' }"></textarea>
+                    <textarea id="formDescription" rows="3" class="form-control" data-bind="value: description, attr: { placeholder: descriptionPlaceholder() }"></textarea>
                 </div>
                 <!-- ko if: meal() < 5 -->
                 <div class="form-group thin-gutter">

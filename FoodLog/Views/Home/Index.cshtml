@@ -62,6 +62,15 @@
                 <td><img style="cursor: pointer; height: 90px" data-bind="click: ImagePreview, attr: { src: ImageMarkup() }" /></td>
             </tr>
             <!-- /ko -->
+            <!-- ko if: meal() == 8 -->
+            <tr>
+                <td class="entry-cell">
+                    <div class="edit-ctrl" data-bind="template: { name: 'edit-entry-template', data: $data }"></div>
+                    <span data-bind="html: Column1Text" style="white-space: nowrap; display: inline-block; height: 100%;"></span>
+                </td>
+                <td data-bind="html: descriptionFormatted" colspan="4"></td>
+            </tr>
+            <!-- /ko -->
             <!-- ko if: meal() == 7 -->
             <tr>
                 <td class="entry-cell" colspan="5">

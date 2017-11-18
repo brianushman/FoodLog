@@ -17,6 +17,12 @@ function LogEntry() {
     self.image = ko.observable();
     self.logEntryId = ko.observable();
 
+    self.descriptionPlaceholder = ko.computed(function () {
+        if (self.meal() == 5) return "Description";
+        if (self.meal() == 8) return "Notes";
+        return "Food & Beverages";
+    });
+
     self.descriptionFormatted = ko.computed(function () {
         return self.description() == undefined ? undefined : self.description().replace(new RegExp("\n", 'g'), "<br>");
     });
