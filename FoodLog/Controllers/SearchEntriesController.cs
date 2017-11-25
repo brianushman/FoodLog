@@ -1,5 +1,6 @@
 ﻿using FoodLog.Contexts;
 using FoodLog.Models;
+using MoreLinq;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace FoodLog.Controllers
         {
             using (var context = new FoodJournalContext())
             {
-                var entries = context.LogEntries.Where(m => m.Description.ToLower().Contains(term.ToLower())).Distinct().
+                var entries = context.LogEntries.Where(m => m.Description.ToLower().Contains(term.ToLower())).DistinctBy(m => m.Timestamp.Date).
                                                  OrderBy(m => m.Timestamp).ToArray();
                 return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(entries, Formatting.None, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
             }
