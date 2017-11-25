@@ -13,6 +13,7 @@
     }
 </style>
 @Html.Partial("../Shared/_EditEntryCtrl")
+@Html.Partial("../Shared/SearchEntries")
 @Html.Partial("../Shared/LogEntry")
 <div class="container inherit-height" style="margin-top: 20px;" id="MainPage">
     @*<a class="feedback-tag" href="mailto:brianushman@gmail.com">Feedback</a>*@
@@ -23,6 +24,7 @@
         </div>
         <div class="pull-right btn-toolbar">
             <div class="btn-group">
+                <button type="button" class="btn btn-info pull-right" title="Search Food Entries" data-bind="click: OpenSearchDialog"><i class="fa fa-search"></i></button>
                 <button id="btnChangeDate" type="button" class="btn btn-info pull-right" title="View Calendar" data-date-format="yyyy-mm-dd"><i class="fa fa-calendar" aria-hidden="true"></i></button>
                 <button type="button" class="btn btn-info pull-right" title="Move To Next Day" data-bind="click: MoveNextDay"><i class="fa fa-arrow-right"></i></button>
                 <button type="button" class="btn btn-info pull-right" title="Move To Today" data-bind="click: MoveToday"><bold class="fa fa-calendar-check-o" aria-hidden="true"></bold></button>

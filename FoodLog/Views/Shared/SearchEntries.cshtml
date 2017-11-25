@@ -1,0 +1,15 @@
+﻿<script type="text/html" id="search-log-entry-template" style="display:none">
+    <div class="dialog-container" id="search-log-entry">
+        <div name="search-log-entry-form">
+            <form class="row col-sm-12" data-bind="submit: searchEntries">
+                <div class="form-group input-group">
+                    <input type="text" class="form-control" placeholder="Search Term" data-bind="textInput: term" />
+                    <button type="button" class="input-group-addon" data-bind="click: searchEntries"><i class="fa fa-search"></i> Search</button>
+                </div>
+                <div class="form-group list-group" data-bind="foreach: results">
+                    <a class="list-group-item list-group-item-action" style="cursor: pointer" data-bind="text: moment($data.timestamp).format('dddd, MMM Do YYYY'), click: function() { return $root.moveToEntry($data.timestamp); }"></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

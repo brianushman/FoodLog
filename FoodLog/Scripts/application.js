@@ -113,6 +113,43 @@ function LogEntry() {
     }
 }
 
+function SearchEntries() {
+    var self = this;
+
+    self.term = ko.observable();
+    self.results = ko.observableArray();
+
+    self.moveToEntry = function (date) {
+        window.location.href = "?" + moment(date).format("YYYY-MM-DD");
+    }
+
+    self.searchEntries = function () {
+        $.ajax({
+            type: "GET",
+            url: "api/SearchEntries/" + self.term(),
+            xhrFields: {
+                withCredentials: true
+            },
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                self.results(JSON.parse(data));
+            },
+            error: function (error) {
+                /*$.notify({
+                    // options
+                    message: error.responseText,
+                }, {
+                    // settings
+                    type: 'danger'
+                });*/
+
+                return false;
+            }
+        });
+    }
+}
+
 function HomePage() {
     var self = this;
 
@@ -278,6 +315,25 @@ function HomePage() {
 
     self.MoveToday = function () {
         window.location.href = "/";
+    }
+
+    self.OpenSearchDialog = function () {
+        var messageTemplate = $("#search-log-entry-template").html();
+        bootbox.dialog({
+            closeButton: false,
+            title: "Search Log Entries",
+            message: messageTemplate,
+            buttons: {
+                main: {
+                    label: "Close",
+                    className: "btn-primary"
+                }
+            }
+        });
+        $(messageTemplate).show();
+        $(".modal-body").css("padding-bottom", 0);
+
+        ko.applyBindings(new SearchEntries(), document.getElementById("search-log-entry"));
     }
 
     self.FindLogEntryIndex = function (value) {
