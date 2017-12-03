@@ -20,6 +20,7 @@ function LogEntry() {
     self.descriptionPlaceholder = ko.computed(function () {
         if (self.meal() == 5) return "Description";
         if (self.meal() == 8) return "Notes";
+        if (self.meal() == 10) return "Exercise";
         return "Food & Beverages";
     });
 
