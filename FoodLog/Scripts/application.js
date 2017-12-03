@@ -68,6 +68,10 @@ function LogEntry() {
                 return "Asleep";
             case 8:
                 return "Note";
+            case 9:
+                return "Food";
+            case 10:
+                return "Exercise";
             default:
                 return "N/A";
         }

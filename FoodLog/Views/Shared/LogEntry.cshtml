@@ -10,10 +10,8 @@
                     @*<label for="formEntryType">Entry Type</label>*@
                     <select id="formEntryType" class="form-control" data-bind="value: meal" required>
                         <option value="-1" disabled selected>Entry Type...</option>
-                        <option value="1">Breakfast</option>
-                        <option value="2">Lunch</option>
-                        <option value="3">Dinner</option>
-                        <option value="4">Snack</option>
+                        <option value="9">Food</option>
+                        <option value="10">Exercise</option>
                         <option value="8">Note</option>
                         <option value="5">Elimination</option>
                         <option value="6">Awake</option>
@@ -31,11 +29,11 @@
                         <option>4</option>
                     </select>
                 </div>
-                <div class="form-group thin-gutter" data-bind="visible: meal() <= 5 || meal() == 8">
+                <div class="form-group thin-gutter" data-bind="visible: meal() <= 5 || meal() == 8 || meal == 10">
                     @*<label for="formDescription">Description</label>*@
                     <textarea id="formDescription" rows="3" class="form-control" data-bind="value: description, attr: { placeholder: descriptionPlaceholder() }"></textarea>
                 </div>
-                <!-- ko if: meal() < 5 -->
+                <!-- ko if: meal() < 5 || meal() == 9 -->
                 <div class="form-group thin-gutter">
                     @*<label for="formLocation">Location</label>*@
                     <input id="formLocation" type="text" class="form-control" placeholder="Location" data-bind="value: location" />

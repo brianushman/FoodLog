@@ -52,7 +52,7 @@
                 </td>
             </tr>
             <!-- /ko -->          
-            <!-- ko if: meal() < 5 -->
+            <!-- ko if: meal() == 9 -->
             <tr>
                 <td class="entry-cell">
                     <div class="edit-ctrl" data-bind="template: { name: 'edit-entry-template', data: $data }"></div>
@@ -64,7 +64,7 @@
                 <td><img style="cursor: pointer; height: 90px" data-bind="click: ImagePreview, attr: { src: ImageMarkup() }" /></td>
             </tr>
             <!-- /ko -->
-            <!-- ko if: meal() == 8 -->
+            <!-- ko if: meal() == 8 || meal() == 10 -->
             <tr>
                 <td class="entry-cell">
                     <div class="edit-ctrl" data-bind="template: { name: 'edit-entry-template', data: $data }"></div>
