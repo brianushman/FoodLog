@@ -82,7 +82,8 @@ function LogEntry() {
     });
 
     self.Column4Text = ko.computed(function () {
-        return $.validator.format("<u><strong>LOCATION: </strong><span>{0}</span></u><br><span>{1}</span>", self.location() || "", self.comments() || "");
+        var location_html = $.validator.format("<u><strong>LOCATION: </strong><span>{0}</span></u><br>", self.location() || "");
+        return $.validator.format("{0}<span>{1}</span>", self.location() ? location_html : "", self.comments() || "");
     });
 
     self.EliminationEntry = ko.computed(function () {
