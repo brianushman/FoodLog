@@ -52,7 +52,7 @@
                 </td>
             </tr>
             <!-- /ko -->          
-            <!-- ko if: meal() == 9 -->
+            <!-- ko if: meal() < 5 || meal() == 9 -->
             <tr>
                 <td class="entry-cell">
                     <div class="edit-ctrl" data-bind="template: { name: 'edit-entry-template', data: $data }"></div>
